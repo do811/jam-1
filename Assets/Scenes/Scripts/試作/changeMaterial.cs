@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using GameObjectlib;
 using System.Threading;
+using System.Diagnostics;
 public class changeMaterial : MonoBehaviour
 {
     private GameObject phoneObj;
@@ -12,6 +13,7 @@ public class changeMaterial : MonoBehaviour
     private MeshRenderer mesh;
     private int index = 0;
     private MeshRenderer colors;
+    private TextMesh TimeText;
 
     private void BackInitialPositoin(GameObject phone)
     {
@@ -25,25 +27,30 @@ public class changeMaterial : MonoBehaviour
         phoneTrs.eulerAngles = new Vector3(0, 90, 0);
     }
 
-    int i = 0;
+    int maxcycle = 2;//最大で着信が来ない回数
+    int currentcycle = 0;
+    int watingsum = 0;
     //時間制御なんでIEnumeratorによるコルーチン
     IEnumerator waitCall()
     {
-        for (; ; i++)
+        for (; ; currentcycle++)
         {
-            watingtime = Random.Range(1, 7);
-            if (watingtime <= 2 && i > 3)
+            watingtime = Random.Range(1, 6);
+            if (watingtime <= 2 && watingsum >= 8)
             {
-                Debug.Log("oned");
-                mesh.material = colors.materials[index = 0];
+                mesh.material = colors.materials[index = 0];//ここで赤色にする
                 yield return new WaitForSeconds(watingtime);
+                //TODO:緑色に戻るまでの時間を計測
+                StopWatch.StopAndGetTime();
                 BackInitialPositoin(phoneObj);
                 BackInitialRotate(phoneObj);
-                i = 0;
+                currentcycle = 0;
             }
             else
             {
+                //TODO:失敗したとき処理
                 mesh.material = colors.materials[index = 1];
+                watingsum += watingtime;
                 yield return new WaitForSeconds(watingtime);
             }
         }
