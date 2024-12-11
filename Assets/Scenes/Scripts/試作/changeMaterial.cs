@@ -40,7 +40,6 @@ public class changeMaterial : MonoBehaviour
             {
                 mesh.material = colors.materials[index = 0];//ここで赤色にする
                 yield return new WaitForSeconds(watingtime);
-                //TODO:緑色に戻るまでの時間を計測
                 StopWatch.StopAndGetTime();
                 BackInitialPositoin(phoneObj);
                 BackInitialRotate(phoneObj);
