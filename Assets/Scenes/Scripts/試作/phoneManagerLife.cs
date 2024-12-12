@@ -7,7 +7,7 @@ using UnityEngine;
 using GameObjectlib;
 using System.Threading;
 using System.Diagnostics;
-public class phoneManager : MonoBehaviour
+public class phoneManagerLife : MonoBehaviour
 {
     private GameObject phoneObj;
     private GameObject manager;
@@ -80,6 +80,5 @@ public class phoneManager : MonoBehaviour
         colors = manager.GetComponent<MeshRenderer>();
         mesh.material = colors.materials[0];
         StartCoroutine(waitCall());
-
     }
 }
