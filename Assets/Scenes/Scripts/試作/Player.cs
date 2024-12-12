@@ -55,7 +55,6 @@ public class Player : MonoBehaviour
         && phoneStat.material.mainTexture == status.materials[0].mainTexture)
         {
             StopWatch.Start();
-            Debug.Log("now");
             if (Input.GetKey(KeyCode.I))
             {
                 var time = StopWatch.StopAndGetTime();
