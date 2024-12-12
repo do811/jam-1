@@ -30,7 +30,9 @@ public class phoneManager : MonoBehaviour
     int maxcycle = 2;//最大で着信が来ない回数
     int currentcycle = 0; //電話が来た回数？
     int watingsum = 0;
-    int phonecalltime = 0;
+
+    bool isCallAble = true;//前回のサイクルで電話が来なかったらtrue、来たらfalse
+    int failedTime = 0;
     //時間制御なんでIEnumeratorによるコルーチン
     IEnumerator waitCall()
     {
@@ -41,11 +43,28 @@ public class phoneManager : MonoBehaviour
                 break;
             }
             watingtime = Random.Range(1, 6);
-            if (watingtime <= 2 && watingsum >= 8)
+            if (watingtime <= 2
+            && watingsum >= 8
+            && isCallAble)
             {
                 mesh.material = colors.materials[index = 0];//ここで赤色にする
+                isCallAble = false;
+
                 yield return new WaitForSeconds(watingtime);
+
                 StopWatch.StopAndGetTime();
+                if (mesh.material.color == colors.materials[index = 0].color)//電話取るのに失敗した場合
+                {
+                    //TODO:失敗したとき処理
+                    failedTime++;
+                    UnityEngine.Debug.Log(failedTime);
+                    if (failedTime >= 3)
+                    {
+                        // UnityEngine.Debug.Log(failedTime);
+                        break;
+                    }
+                    continue;//ここより下に行かない
+                }
                 BackInitialPositoin(phoneObj);
                 BackInitialRotate(phoneObj);
                 currentcycle = 0; //これで無限ループ？
@@ -53,7 +72,7 @@ public class phoneManager : MonoBehaviour
             }
             else
             {
-                //TODO:失敗したとき処理
+                isCallAble = true;
                 mesh.material = colors.materials[index = 1];
                 watingsum += watingtime;
                 yield return new WaitForSeconds(watingtime);

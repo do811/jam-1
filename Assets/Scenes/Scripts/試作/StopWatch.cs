@@ -14,6 +14,7 @@ public static class StopWatch
     {
         if (isStart())
         {
+            Debug.Log("watch Start  ");
             stopwatch.Restart();
         }
     }
@@ -34,10 +35,10 @@ namespace local
 {
     public class StopWatch
     {
-        private static System.Diagnostics.Stopwatch stopwatch
+        private System.Diagnostics.Stopwatch stopwatch
         = new();
-        private static int i = 0;
-        public static void Start()
+        private int i = 0;
+        public void Start()
         {
             if (isStart())
             {
@@ -45,14 +46,14 @@ namespace local
             }
         }
 
-        public static TimeSpan StopAndGetTime()
+        public TimeSpan StopAndGetTime()
         {
             stopwatch.Stop();
             i = 0;
             return stopwatch.Elapsed;
         }
 
-        private static bool isStart()
+        private bool isStart()
         {
             return 0 == i++;
         }
