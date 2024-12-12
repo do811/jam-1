@@ -5,7 +5,7 @@ using UnityEngine;
 using GameObjectlib;
 using System.Threading;
 using System.Diagnostics;
-public class phoneManager : MonoBehaviour
+public class phoneManagerLife : MonoBehaviour
 {
     private GameObject phoneObj;
     private GameObject manager;
@@ -36,12 +36,9 @@ public class phoneManager : MonoBehaviour
     //時間制御なんでIEnumeratorによるコルーチン
     IEnumerator waitCall()
     {
-        for (;; phonecalltime++)
+        for (; ; )
         {
-            if (phonecalltime >= 2)
-            {
-                break;
-            }
+
             watingtime = Random.Range(1, 6);
             if (watingtime <= 2
             && watingsum >= 8
@@ -60,7 +57,6 @@ public class phoneManager : MonoBehaviour
                     UnityEngine.Debug.Log(failedTime);
                     if (failedTime >= 3)
                     {
-                        // UnityEngine.Debug.Log(failedTime);
                         break;
                     }
                     continue;//ここより下に行かない
@@ -68,7 +64,6 @@ public class phoneManager : MonoBehaviour
                 BackInitialPositoin(phoneObj);
                 BackInitialRotate(phoneObj);
                 currentcycle = 0; //これで無限ループ？
-                phonecalltime +=1;
             }
             else
             {
@@ -76,7 +71,6 @@ public class phoneManager : MonoBehaviour
                 mesh.material = colors.materials[index = 1];
                 watingsum += watingtime;
                 yield return new WaitForSeconds(watingtime);
-                phonecalltime +=1;
             }
         }
     }
@@ -91,6 +85,7 @@ public class phoneManager : MonoBehaviour
         mesh = phoneObj.GetComponent<MeshRenderer>();
         colors = manager.GetComponent<MeshRenderer>();
         mesh.material = colors.materials[0];
-        StartCoroutine(waitCall());
+        StartCoroutine(waitCall());//下も動く
+        UnityEngine.Debug.Log("Finished");
     }
 }
