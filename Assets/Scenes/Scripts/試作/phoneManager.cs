@@ -28,13 +28,18 @@ public class phoneManager : MonoBehaviour
     }
 
     int maxcycle = 2;//最大で着信が来ない回数
-    int currentcycle = 0;
+    int currentcycle = 0; //電話が来た回数？
     int watingsum = 0;
+    int phonecalltime = 0;
     //時間制御なんでIEnumeratorによるコルーチン
     IEnumerator waitCall()
     {
-        for (; ; currentcycle++)
+        for (;; phonecalltime++)
         {
+            if (phonecalltime >= 2)
+            {
+                break;
+            }
             watingtime = Random.Range(1, 6);
             if (watingtime <= 2 && watingsum >= 8)
             {
@@ -43,7 +48,8 @@ public class phoneManager : MonoBehaviour
                 StopWatch.StopAndGetTime();
                 BackInitialPositoin(phoneObj);
                 BackInitialRotate(phoneObj);
-                currentcycle = 0;
+                currentcycle = 0; //これで無限ループ？
+                phonecalltime +=1;
             }
             else
             {
@@ -51,6 +57,7 @@ public class phoneManager : MonoBehaviour
                 mesh.material = colors.materials[index = 1];
                 watingsum += watingtime;
                 yield return new WaitForSeconds(watingtime);
+                phonecalltime +=1;
             }
         }
     }
