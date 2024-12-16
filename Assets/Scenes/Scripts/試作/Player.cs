@@ -17,6 +17,8 @@ public class Player : MonoBehaviour
     private GameObject maincamera;
     private int index = 0;
     private TextMesh timetext;
+
+
     private void BackInitialPositoin(GameObject phone)
     {
         Container target = new(phone);
