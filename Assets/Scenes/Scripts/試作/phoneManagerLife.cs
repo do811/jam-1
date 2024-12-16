@@ -82,10 +82,9 @@ public class phoneManagerLife : MonoBehaviour
     {
         phoneObj = this.gameObject;
         manager = GameObject.Find("manager");
-        mesh = phoneObj.GetComponent<MeshRenderer>();
+        mesh = GameObject.Find("display").GetComponent<MeshRenderer>();
         colors = manager.GetComponent<MeshRenderer>();
         mesh.material = colors.materials[0];
         StartCoroutine(waitCall());//下も動く
-        UnityEngine.Debug.Log("Finished");
     }
 }

@@ -11,6 +11,7 @@ using Unity.VisualScripting;
 public class Player : MonoBehaviour
 {
     private GameObject phoneObj;
+    private GameObject phoneDisplay;
     private MeshRenderer phoneStat;
     private MeshRenderer status;
     private GameObject maincamera;
@@ -42,7 +43,8 @@ public class Player : MonoBehaviour
     void Start()
     {
         phoneObj = GameObject.Find("phone");
-        phoneStat = phoneObj.GetComponent<MeshRenderer>();
+        phoneDisplay = GameObject.Find("display");
+        phoneStat = phoneDisplay.GetComponent<MeshRenderer>();
         status = gameObject.GetComponent<MeshRenderer>();//managerオブジェクトのRendererに格納されてるマテリアル使用のため。
         maincamera = GameObject.Find("Sight");
         timetext = GameObject.Find("timeText").GetComponent<TextMesh>();
