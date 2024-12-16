@@ -7,6 +7,7 @@ using UnityEngine;
 using GameObjectlib;
 using System.Threading;
 using System.Diagnostics;
+using local;
 public class phoneManager : MonoBehaviour
 {
     private GameObject phoneObj;
@@ -36,10 +37,11 @@ public class phoneManager : MonoBehaviour
     //時間制御なんでIEnumeratorによるコルーチン
     IEnumerator waitCall()
     {
+        
         for (; ; )
         {
             watingtime = Random.Range(1, 6);
-            UnityEngine.Debug.Log(watingtime);
+            //UnityEngine.Debug.Log(watingtime);
             if ((watingtime <= 2 || watingsum >= 8) && isCallAble)
             {
                 mesh.material = colors.materials[index = 0];//ここで赤色にする
@@ -50,6 +52,9 @@ public class phoneManager : MonoBehaviour
                 StopWatch.StopAndGetTime();
                 BackInitialPositoin(phoneObj);
                 BackInitialRotate(phoneObj);
+                var time = StopWatch.StopAndGetTime();
+                double totalTime = (time.Seconds) + (time.Milliseconds / 1000F);//ストップウォッチの値取得
+                UnityEngine.Debug.Log(totalTime);
                 currentcycle = 0; //これで無限ループ？
                 phonecalltime += 1;
                 if (phonecalltime >= 2)//2回でやってみる
