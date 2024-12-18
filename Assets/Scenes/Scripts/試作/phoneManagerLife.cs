@@ -44,7 +44,7 @@ public class phoneManagerLife : MonoBehaviour
             && watingsum >= 8
             && isCallAble)
             {
-                mesh.material = colors.materials[index = 0];//ここで赤色にする
+                mesh.material = colors.materials[index = 0];
                 isCallAble = false;
 
                 yield return new WaitForSeconds(watingtime);
