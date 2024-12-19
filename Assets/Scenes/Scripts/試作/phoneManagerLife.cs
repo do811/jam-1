@@ -1,3 +1,95 @@
+// using System.Collections;
+// using System.Collections.Generic;
+// using Unity.VisualScripting;
+// using UnityEngine;
+// using GameObjectlib;
+// using System.Threading;
+// using System.Diagnostics;
+// public class phoneManagerLife : MonoBehaviour
+// {
+//     private GameObject phoneObj;
+//     private GameObject manager;
+
+//     private int watingtime;
+//     private MeshRenderer mesh;
+//     private int index = 0;
+//     private MeshRenderer colors;
+//     private TextMesh TimeText;
+//     private local.StopWatch stopwath;
+//     private void BackInitialPositoin(GameObject phone)
+//     {
+//         Container target = new(phone);
+//         target &= (-4, 0, 10);
+//     }
+
+//     private void BackInitialRotate(GameObject phone)
+//     {
+//         Transform phoneTrs = phone.GetComponent<Transform>();
+//         phoneTrs.eulerAngles = new Vector3(0, 90, 0);
+//     }
+
+//     int maxcycle = 2;//最大で着信が来ない回数
+//     int currentcycle = 0; //電話が来た回数？
+//     int watingsum = 0;
+
+//     bool isCallAble = true;//前回のサイクルで電話が来なかったらtrue、来たらfalse
+//     int failedTime = 0;
+//     //時間制御なんでIEnumeratorによるコルーチン
+//     IEnumerator waitCall()
+//     {
+//         for (; ; )
+//         {
+
+//             watingtime = Random.Range(1, 6);
+//             if (watingtime <= 2
+//             && watingsum >= 8
+//             && isCallAble)
+//             {
+//                 mesh.material = colors.materials[index = 0];
+//                 isCallAble = false;
+
+//                 yield return new WaitForSeconds(watingtime);
+
+//                 StopWatch.StopAndGetTime();
+//                 if (mesh.material.color == colors.materials[index = 0].color)//電話取るのに失敗した場合
+//                 {
+//                     //TODO:失敗したとき処理
+//                     failedTime++;
+//                     UnityEngine.Debug.Log(failedTime);
+//                     if (failedTime >= 3)
+//                     {
+//                         break;
+//                     }
+//                     continue;//ここより下に行かない
+//                 }
+//                 BackInitialPositoin(phoneObj);
+//                 BackInitialRotate(phoneObj);
+//                 currentcycle = 0; //これで無限ループ？
+//             }
+//             else
+//             {
+//                 isCallAble = true;
+//                 mesh.material = colors.materials[index = 1];
+//                 watingsum += watingtime;
+//                 yield return new WaitForSeconds(watingtime);
+//             }
+//         }
+//     }
+
+
+
+//     // Start is called before the first frame update
+//     void Start()
+//     {
+//         phoneObj = this.gameObject;
+//         manager = GameObject.Find("manager");
+//         mesh = GameObject.Find("display").GetComponent<MeshRenderer>();
+//         colors = manager.GetComponent<MeshRenderer>();
+//         mesh.material = colors.materials[0];
+//         StartCoroutine(waitCall());//下も動く
+//     }
+// }
+
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -5,6 +97,9 @@ using UnityEngine;
 using GameObjectlib;
 using System.Threading;
 using System.Diagnostics;
+using local;
+using UnityEditor.Experimental.GraphView;
+using TMPro;
 public class phoneManagerLife : MonoBehaviour
 {
     private GameObject phoneObj;
@@ -20,7 +115,6 @@ public class phoneManagerLife : MonoBehaviour
         Container target = new(phone);
         target &= (-4, 0, 10);
     }
-
     private void BackInitialRotate(GameObject phone)
     {
         Transform phoneTrs = phone.GetComponent<Transform>();
@@ -30,43 +124,47 @@ public class phoneManagerLife : MonoBehaviour
     int maxcycle = 2;//最大で着信が来ない回数
     int currentcycle = 0; //電話が来た回数？
     int watingsum = 0;
-
-    bool isCallAble = true;//前回のサイクルで電話が来なかったらtrue、来たらfalse
-    int failedTime = 0;
+    int phonecalltime = 0;
+    private static int timeCountSize = 2;//変数名はわかりやすいやつで自由に、今回は２
+    private double[] phonetimes = new double[timeCountSize];
+    bool isCallAble = true;
     //時間制御なんでIEnumeratorによるコルーチン
     IEnumerator waitCall()
     {
+
         for (; ; )
         {
-
             watingtime = Random.Range(1, 6);
-            if (watingtime <= 2
-            && watingsum >= 8
-            && isCallAble)
+            //UnityEngine.Debug.Log(watingtime);
+            if ((watingtime <= 2 || watingsum >= 8) && isCallAble)
             {
-                mesh.material = colors.materials[index = 0];
+                mesh.material = colors.materials[index = 0];//ここで赤色にする
                 isCallAble = false;
 
                 yield return new WaitForSeconds(watingtime);
 
                 StopWatch.StopAndGetTime();
-                if (mesh.material.color == colors.materials[index = 0].color)//電話取るのに失敗した場合
-                {
-                    //TODO:失敗したとき処理
-                    failedTime++;
-                    UnityEngine.Debug.Log(failedTime);
-                    if (failedTime >= 3)
-                    {
-                        break;
-                    }
-                    continue;//ここより下に行かない
-                }
                 BackInitialPositoin(phoneObj);
                 BackInitialRotate(phoneObj);
+                var time = StopWatch.StopAndGetTime();
+                double totalTime = (time.Seconds) + (time.Milliseconds / 1000F);//ストップウォッチの値取得
+                phonetimes[phonecalltime] = totalTime;
+                UnityEngine.Debug.Log(phonetimes[phonecalltime]);
+
+
+
+
                 currentcycle = 0; //これで無限ループ？
+                phonecalltime += 1;
+                if (phonecalltime == 3)//3回でやってみる
+                {
+                    UnityEngine.Debug.Log("Finish!");
+                    break;
+                }
             }
             else
             {
+                //TODO:失敗したとき処理
                 isCallAble = true;
                 mesh.material = colors.materials[index = 1];
                 watingsum += watingtime;
@@ -82,9 +180,10 @@ public class phoneManagerLife : MonoBehaviour
     {
         phoneObj = this.gameObject;
         manager = GameObject.Find("manager");
-        mesh = GameObject.Find("display").GetComponent<MeshRenderer>();
+        mesh = phoneObj.GetComponent<MeshRenderer>();
         colors = manager.GetComponent<MeshRenderer>();
         mesh.material = colors.materials[0];
-        StartCoroutine(waitCall());//下も動く
+        StartCoroutine(waitCall());
+
     }
 }
