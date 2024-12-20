@@ -9,6 +9,7 @@ public class phoneManagerLife : MonoBehaviour
 {
     private GameObject phoneObj;
     private GameObject manager;
+
     private int watingtime;
     private MeshRenderer mesh;
     private int index = 0;
@@ -47,7 +48,7 @@ public class phoneManagerLife : MonoBehaviour
                 mesh.material = colors.materials[index = 0];//ここで赤色にする
                 isCallAble = false;
 
-                yield return new WaitForSeconds(watingtime);
+                yield return new WaitForSeconds(1.5F);
 
                 StopWatch.StopAndGetTime();
                 if (mesh.material.color == colors.materials[index = 0].color)//電話取るのに失敗した場合
@@ -85,6 +86,6 @@ public class phoneManagerLife : MonoBehaviour
         mesh = GameObject.Find("display").GetComponent<MeshRenderer>();
         colors = manager.GetComponent<MeshRenderer>();
         mesh.material = colors.materials[0];
-        StartCoroutine(waitCall());//下も動く
+        StartCoroutine(waitCall());//ちなみにここから下も動く
     }
 }
