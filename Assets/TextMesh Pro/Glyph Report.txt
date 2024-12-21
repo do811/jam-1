@@ -1,0 +1,12 @@
+Font: Nicoca-v2  Style: Regular
+Point Size: 38   SP/PD Ratio: 13.2%
+
+Characters included: 193/193
+Missing characters: 0
+Excluded characters: 0
+
+Characters missing from font file:
+----------------------------------------
+
+Characters excluded from packing:
+----------------------------------------

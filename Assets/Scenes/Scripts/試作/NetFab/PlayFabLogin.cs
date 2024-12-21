@@ -25,6 +25,10 @@ public class PlayFabLogin : MonoBehaviour
     {
         // ログイン処理の実行
         Login();
+        PrefAccessor.GlobalRankingLoad();
+        PrefAccessor.RankingUpdate("global", 102);
+        Debug.Log("updateRanking");
+        PrefAccessor.GlobalRankingLoad();
     }
 
     // ログインメソッド
