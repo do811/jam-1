@@ -9,9 +9,15 @@ EditorBuildSettings:
     path: Assets/Scenes/main.unity
     guid: 3f57ef4567865944c9afd4ef88c18357
   - enabled: 1
-    path: Assets/Scenes/StartMenu_temp.unity
+    path: Assets/Scenes/StartMenu.unity
     guid: 0fada7c3b4b09e14584e9a461b4ed0a2
   - enabled: 1
     path: Assets/Scenes/main_1.unity
     guid: 16abfc77a89b5c8429ab7b70b7018297
+  - enabled: 1
+    path: Assets/Scenes/PlayerRanking.unity
+    guid: 6766ddb79939d4348b01de8c7818f5c9
+  - enabled: 1
+    path: Assets/Scenes/GlobaRanking.unity
+    guid: 427631349fa63dd45b2d88e5760280fb
   m_configObjects: {}

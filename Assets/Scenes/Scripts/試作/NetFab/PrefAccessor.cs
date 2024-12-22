@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public static class PrefAccessor
 {
@@ -38,9 +40,20 @@ public static class PrefAccessor
         return ParseSortedSetInt(seriarizedRanking, 5);
     }
 
-    public static void GlobalRankingLoad()
+    public static void PlayerRankingLoad(TextMeshProUGUI[] textmeshes)
     {
-        SortedSet<int> ranking = CatchRanking("Ranking", 5);
+        SortedSet<int> ranking = CatchRanking("local", 5);
+        int i = 1;
+        foreach (var score in ranking)
+        {
+            Debug.Log($"{i}位:{score}");
+            textmeshes[i - 1].text = $"{i}位:{score:D3}点";
+            i++;
+        }
+    }
+    public static void PlayerRankingLoad()
+    {
+        SortedSet<int> ranking = CatchRanking("local", 5);
         int i = 1;
         foreach (var score in ranking)
         {
@@ -48,7 +61,6 @@ public static class PrefAccessor
             i++;
         }
     }
-
     public static void RankingUpdate(string rankingKey, int score = 0, int RankingLength = 5)
     {
         SortedSet<int> sets = CatchRanking(rankingKey, RankingLength);
