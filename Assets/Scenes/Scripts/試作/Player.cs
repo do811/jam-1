@@ -61,11 +61,17 @@ public class Player : MonoBehaviour
             StopWatch.Start();
             if (Input.GetKey(KeyCode.I))
             {
+                SoundPlayer.StopSound();
                 var time = StopWatch.StopAndGetTime();
                 timetext.text = $"{time.Seconds}.{time.Milliseconds}";
                 TakePhone(phoneObj);
                 Debug.Log("Took!");
             }
+        }
+        else if (Input.GetKey(KeyCode.I))
+        {
+            Debug.Log("pushed out of call");
+            PenaltyGauge.Start(this);
         }
     }
 }

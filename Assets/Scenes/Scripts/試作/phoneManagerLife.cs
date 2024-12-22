@@ -46,10 +46,11 @@ public class phoneManagerLife : MonoBehaviour
             && isCallAble)
             {
                 mesh.material = colors.materials[index = 0];//ここで赤色にする
+                SoundPlayer.PlaySound();
                 isCallAble = false;
 
                 yield return new WaitForSeconds(1.5F);
-
+                SoundPlayer.StopSound();
                 StopWatch.StopAndGetTime();
                 if (mesh.material.color == colors.materials[index = 0].color)//電話取るのに失敗した場合
                 {
