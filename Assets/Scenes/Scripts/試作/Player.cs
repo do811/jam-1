@@ -41,6 +41,7 @@ public class Player : MonoBehaviour
         RotateTakenAngle(phone);
         phoneStat.material = status.materials[index = 1];
     }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -51,7 +52,6 @@ public class Player : MonoBehaviour
         maincamera = GameObject.Find("Sight");
         timetext = GameObject.Find("timeText").GetComponent<TextMesh>();
     }
-
     // Update is called once per frame
     void Update()
     {
@@ -59,7 +59,7 @@ public class Player : MonoBehaviour
         && phoneStat.material.mainTexture == status.materials[0].mainTexture)
         {
             StopWatch.Start();
-            if (Input.GetKey(KeyCode.I))
+            if (Input.GetKey(KeyCode.I) && !PenaltyGauge.isPenalty)
             {
                 SoundPlayer.StopSound();
                 var time = StopWatch.StopAndGetTime();
@@ -68,7 +68,7 @@ public class Player : MonoBehaviour
                 Debug.Log("Took!");
             }
         }
-        else if (Input.GetKey(KeyCode.I))
+        else if (Input.GetKey(KeyCode.I) && !PenaltyGauge.isPenalty)
         {
             Debug.Log("pushed out of call");
             PenaltyGauge.Start(this);
