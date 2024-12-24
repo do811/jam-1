@@ -75,6 +75,8 @@ public class phoneManagerLife : MonoBehaviour
                 yield return new WaitForSeconds(watingtime);
             }
         }
+        UnityEngine.Debug.Log("ends");
+
     }
 
 
@@ -88,5 +90,9 @@ public class phoneManagerLife : MonoBehaviour
         colors = manager.GetComponent<MeshRenderer>();
         mesh.material = colors.materials[0];
         StartCoroutine(waitCall());//ちなみにここから下も動く
+    }
+    void End()
+    {
+
     }
 }

@@ -33,7 +33,7 @@ public class Player : MonoBehaviour
     private void RotateTakenAngle(GameObject phone)
     {
         Transform phoneTrs = phone.GetComponent<Transform>();
-        phoneTrs.eulerAngles = new Vector3(-70, 90, 30);
+        phoneTrs.eulerAngles = new Vector3(50, 220, -40);
     }
     private void TakePhone(GameObject phone)
     {
@@ -59,7 +59,7 @@ public class Player : MonoBehaviour
         && phoneStat.material.mainTexture == status.materials[0].mainTexture)
         {
             StopWatch.Start();
-            if (Input.GetKey(KeyCode.I) && !PenaltyGauge.isPenalty)
+            if (Input.GetKeyDown(KeyCode.I) && !PenaltyGauge.isPenalty)
             {
                 SoundPlayer.StopSound();
                 var time = StopWatch.StopAndGetTime();
@@ -68,7 +68,7 @@ public class Player : MonoBehaviour
                 Debug.Log("Took!");
             }
         }
-        else if (Input.GetKey(KeyCode.I) && !PenaltyGauge.isPenalty)
+        else if (Input.GetKeyDown(KeyCode.I) && !PenaltyGauge.isPenalty)
         {
             Debug.Log("pushed out of call");
             PenaltyGauge.Start(this);
