@@ -51,6 +51,7 @@ public class Player : MonoBehaviour
         status = gameObject.GetComponent<MeshRenderer>();//managerオブジェクトのRendererに格納されてるマテリアル使用のため。
         maincamera = GameObject.Find("Sight");
         timetext = GameObject.Find("timeText").GetComponent<TextMesh>();
+        timetext.gameObject.SetActive(false);
     }
     // Update is called once per frame
     void Update()
@@ -63,6 +64,7 @@ public class Player : MonoBehaviour
             {
                 SoundPlayer.StopSound();
                 var time = StopWatch.StopAndGetTime();
+                timetext.gameObject.SetActive(true);
                 timetext.text = $"{time.Seconds}.{time.Milliseconds}";
                 TakePhone(phoneObj);
                 Debug.Log("Took!");
