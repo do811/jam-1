@@ -23,10 +23,11 @@ public class RankingHandler : MonoBehaviour
             SetUserName("テスト君low");
         }
 
-        // キーボードで「B」が入力されたらスコアとして4を送信する
         if (Input.GetKeyDown(KeyCode.P))
         {
-            SubmitScore(4);
+            SortedSet<int> myBests = new SortedSet<int>(Comparer<int>.Create((x, y) => y.CompareTo(x)));
+            myBests = PrefAccessor.CatchRanking("local");
+            SubmitScore(myBests.Max);
         }
 
         // キーボードで「C」が入力されたらランキングを取得する
