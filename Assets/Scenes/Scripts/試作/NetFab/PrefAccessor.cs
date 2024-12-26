@@ -37,7 +37,7 @@ public static class PrefAccessor
     public static SortedSet<int> CatchRanking(string rankingKey, int MaxRankingNum = 5)
     {
         string seriarizedRanking = PlayerPrefs.GetString(rankingKey, "0,0,0,0,0");
-        return ParseSortedSetInt(seriarizedRanking, 5);
+        return ParseSortedSetInt(seriarizedRanking, MaxRankingNum);
     }
 
     public static void PlayerRankingLoad(TextMeshProUGUI[] textmeshes)

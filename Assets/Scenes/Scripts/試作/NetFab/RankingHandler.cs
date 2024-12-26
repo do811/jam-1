@@ -25,9 +25,20 @@ public class RankingHandler : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.P))
         {
-            SortedSet<int> myBests = new SortedSet<int>(Comparer<int>.Create((x, y) => y.CompareTo(x)));
-            myBests = PrefAccessor.CatchRanking("local");
-            SubmitScore(myBests.Max);
+            // SetUserName("テスト君low");
+
+            SortedSet<int> myBests = new SortedSet<int>(
+                Comparer<int>.Create((x, y) => y.CompareTo(x))
+                );
+            myBests = PrefAccessor.CatchRanking("local", 5);
+            //ここ低い方優先しちゃってるので最終的に0点とかで安定しちゃうバグをなんとかする
+            foreach (var score in myBests)
+            {
+                UnityEngine.Debug.Log(score);
+                if (score == 0) break;
+                SubmitScore(102);
+            }
+            SubmitScore(102);
         }
 
         // キーボードで「C」が入力されたらランキングを取得する
@@ -78,6 +89,8 @@ public class RankingHandler : MonoBehaviour
             Debug.Log("ランキングの取得に失敗しました");
         }
     }
+
+
     void GetRankingAroundPlayer()
     {
         // PlayFabに送信するリクエストを作成する
