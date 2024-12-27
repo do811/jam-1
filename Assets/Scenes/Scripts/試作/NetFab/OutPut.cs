@@ -10,6 +10,4 @@ public static class OutPut
         TextMeshProUGUI textmesh = GameObject.Find(TextObjName).GetComponent<TextMeshProUGUI>();
         textmesh.text = str;
     }
-
-
 }

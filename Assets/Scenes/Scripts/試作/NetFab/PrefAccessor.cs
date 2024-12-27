@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,14 +19,15 @@ public static class PrefAccessor
     {
         string[] TextArr = str.Split(",");
         int topScores = TextArr.Length;
-        SortedSet<int> Sets = new SortedSet<int>(Comparer<int>.Create((x, y) => y.CompareTo(x)));
+        SortedSet<int> Sets = new SortedSet<int>(Comparer<int>.Create((x, y) => y.CompareTo(x)));//降順の集合
         for (int i = 0; i < topScores; i++)
         {
             int score = int.Parse(TextArr[i]);
             Sets.Add(score);
             if (Sets.Count > MaxLength && MaxLength != 0)
             {
-                Sets.Remove(Sets.Min);
+                Sets.Remove(Sets.Last());//降順、つまりデフォルトと逆なのでMaxが最小値になる。・・・ややこしいですね
+
             }
         }
         return Sets;
@@ -67,7 +69,7 @@ public static class PrefAccessor
         sets.Add(score);
         if (sets.Count > RankingLength)
         {
-            sets.Remove(sets.Min);
+            sets.Remove(sets.Last());
         }
         string uploadRankingText = string.Join(",", sets);
         PlayerPrefs.SetString(rankingKey, uploadRankingText);

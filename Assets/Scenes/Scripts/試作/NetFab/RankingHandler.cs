@@ -4,6 +4,7 @@ using PlayFab;
 using PlayFab.ClientModels;
 using UnityEngine;
 using TMPro;
+using System.Linq;
 
 public class RankingHandler : MonoBehaviour
 {
@@ -31,14 +32,8 @@ public class RankingHandler : MonoBehaviour
                 Comparer<int>.Create((x, y) => y.CompareTo(x))
                 );
             myBests = PrefAccessor.CatchRanking("local", 5);
-            //ここ低い方優先しちゃってるので最終的に0点とかで安定しちゃうバグをなんとかする
-            foreach (var score in myBests)
-            {
-                UnityEngine.Debug.Log(score);
-                if (score == 0) break;
-                SubmitScore(102);
-            }
-            SubmitScore(102);
+            UnityEngine.Debug.Log(myBests.Min);
+            SubmitScore(myBests.First());
         }
 
         // キーボードで「C」が入力されたらランキングを取得する
@@ -77,9 +72,9 @@ public class RankingHandler : MonoBehaviour
             {
                 // Positionは順位。0から始まるので+1して表示する
                 // intの最大値から取得したスコアを引いて、本来のスコアを出力する
-                Debug.Log($"{item.Position + 1}位　プレイヤー名：{item.DisplayName}　スコア：{int.MaxValue - item.StatValue}");
+                Debug.Log($"{item.Position + 1}位　プレイヤー名：{item.DisplayName}　スコア：{item.StatValue}");
                 OutPut.Display("RankingText" + (item.Position + 1)
-                , $"{item.Position + 1}位：{(int.MaxValue - item.StatValue):D3}点：{item.DisplayName}");
+                , $"{item.Position + 1}位：{(item.StatValue):D3}点：{item.DisplayName}");
             }
         }
 
@@ -151,7 +146,7 @@ public class RankingHandler : MonoBehaviour
         var statisticUpdate = new StatisticUpdate
         {
             StatisticName = "TestRanking",
-            Value = int.MaxValue - score,
+            Value = score,
         };
         var request = new UpdatePlayerStatisticsRequest
         {
