@@ -15,31 +15,31 @@ public class RankingHandler : MonoBehaviour
         PrefAccessor.RankingUpdate("local", 102);
         Debug.Log("updateRankinG");
         PrefAccessor.PlayerRankingLoad();
+        //SetUserName("テスト君low");
+        SetUserName(NameHolder.PlayerName);
+        SortedSet<int> myBests = new SortedSet<int>(
+            Comparer<int>.Create((x, y) => y.CompareTo(x))
+            );
+        myBests = PrefAccessor.CatchRanking("local", 5);
+        UnityEngine.Debug.Log(myBests.Min);
+        SubmitScore(myBests.First());
+        GetRanking();
     }
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.A))
         {
-            SetUserName("テスト君low");
+            SetUserName(NameHolder.PlayerName);
         }
 
         if (Input.GetKeyDown(KeyCode.P))
         {
-            // SetUserName("テスト君low");
-
-            SortedSet<int> myBests = new SortedSet<int>(
-                Comparer<int>.Create((x, y) => y.CompareTo(x))
-                );
-            myBests = PrefAccessor.CatchRanking("local", 5);
-            UnityEngine.Debug.Log(myBests.Min);
-            SubmitScore(myBests.First());
         }
 
         // キーボードで「C」が入力されたらランキングを取得する
         if (Input.GetKeyDown(KeyCode.I))
         {
-            GetRanking();
         }
     }
 

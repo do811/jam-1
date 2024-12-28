@@ -10,7 +10,8 @@ public class EnterButton : MonoBehaviour
     public TMP_InputField nameField;
     void Start()
     {
-        nameField = GameObject.Find("InputField").GetComponent<TMP_InputField>();
+        nameField = GameObject.Find("InputField")
+                    .GetComponent<TMP_InputField>();
     }
 
     public void EnterOn()
