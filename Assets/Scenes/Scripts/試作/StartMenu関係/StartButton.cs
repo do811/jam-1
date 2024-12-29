@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class StartButton : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class StartButton : MonoBehaviour
     private GameObject SpeakerObj;
     private MeshRenderer textures;
     private Image display;
+    private TextMeshProUGUI callingText;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,6 +22,8 @@ public class StartButton : MonoBehaviour
         textures = ManagerObj.GetComponent<MeshRenderer>();
         display = DisplayObj.GetComponent<Image>();
         display.material = textures.materials[0];
+        callingText = GameObject.Find("CallingText")
+                        .GetComponent<TextMeshProUGUI>();
         SpeakerObj.SetActive(false);
     }
 
@@ -32,6 +36,7 @@ public class StartButton : MonoBehaviour
 
     private IEnumerator GoingScene()
     {
+        callingText.text = "To " + NameHolder.PlayerName + "...";
         yield return new WaitForSeconds(3f/*とりあえずこの値*/);
         SceneManager.LoadScene("main_1");
     }
