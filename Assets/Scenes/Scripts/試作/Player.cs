@@ -6,6 +6,7 @@ using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using System;
 using UnityEngine.Android;
 using Unity.VisualScripting;
+using TMPro;
 
 
 public class Player : MonoBehaviour
@@ -16,7 +17,7 @@ public class Player : MonoBehaviour
     private MeshRenderer status;
     private GameObject maincamera;
     private int index = 0;
-    private TextMesh timetext;
+    private TextMeshProUGUI timetext;
 
 
     private void BackInitialPositoin(GameObject phone)
@@ -50,7 +51,8 @@ public class Player : MonoBehaviour
         phoneStat = phoneDisplay.GetComponent<MeshRenderer>();
         status = gameObject.GetComponent<MeshRenderer>();//managerオブジェクトのRendererに格納されてるマテリアル使用のため。
         maincamera = GameObject.Find("Sight");
-        timetext = GameObject.Find("timeText").GetComponent<TextMesh>();
+
+        timetext = GameObject.Find("TimeText").GetComponent<TextMeshProUGUI>();
         timetext.gameObject.SetActive(false);
     }
     // Update is called once per frame
@@ -60,7 +62,7 @@ public class Player : MonoBehaviour
         && phoneStat.material.mainTexture == status.materials[0].mainTexture)
         {
             StopWatch.Start();
-            if (Input.GetKeyDown(KeyCode.I) && !PenaltyGauge.isPenalty)
+            if (Input.GetMouseButtonDown(0) && !PenaltyGauge.isPenalty)
             {
                 SoundPlayer.StopSound();
                 var time = StopWatch.StopAndGetTime();
@@ -70,7 +72,7 @@ public class Player : MonoBehaviour
                 Debug.Log("Took!");
             }
         }
-        else if (Input.GetKeyDown(KeyCode.I) && !PenaltyGauge.isPenalty)
+        else if (Input.GetMouseButtonDown(0) && !PenaltyGauge.isPenalty)
         {
             Debug.Log("pushed out of call");
             PenaltyGauge.Start(this);
