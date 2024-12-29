@@ -32,7 +32,7 @@ public class phoneManager_test : MonoBehaviour
     }
     private void Calcurate()
     {
-        score = 25 * (4 - phonetimes[phonecalltime]);//仮の計算式なので後で変更
+        score = 25 * (4 - phonetimes[phonecalltime]);//仮の計算式なので後で変更します。
         Intscore[phonecalltime] = (int)Math.Round(score);
     }
     private void Total()
