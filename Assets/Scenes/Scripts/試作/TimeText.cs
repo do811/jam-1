@@ -9,11 +9,11 @@ public class TimeText : MonoBehaviour
     void Start()
     {
         texts = new(this.gameObject);
-        texts &= (600f, 0, 0);
+        texts &= (1200f, 300f, 0f);
     }
 
     double time = 0;
-    double span = 1f;
+    double span = 0.5f;
     double difference_x = 0;
     const double max_difference_x = -700f;
     // Update is called once per frame
@@ -23,13 +23,11 @@ public class TimeText : MonoBehaviour
         if (time < span)
         {
             difference_x = max_difference_x * (time / span);
-            texts &= (600f + (float)difference_x, 0, 0);
-            Debug.Log(time);
+            texts &= (1200f + (float)difference_x, 300f, 0f);
         }
         else
         {
             Debug.Log("1second?");
-            texts.Obj.SetActive(false);
         }
     }
 }
