@@ -12,8 +12,16 @@ public class TimeText : MonoBehaviour
         texts &= (1200f, 300f, 0f);
     }
 
+
+    IEnumerator Disappear()
+    {
+        yield return new WaitForSeconds(1.5f);
+        texts &= (1200f, 300f, 0f);
+        time = 0f;
+        texts.Obj.SetActive(false);
+    }
     double time = 0;
-    double span = 0.5f;
+    double span = 0.3f;
     double difference_x = 0;
     const double max_difference_x = -700f;
     // Update is called once per frame
@@ -27,7 +35,7 @@ public class TimeText : MonoBehaviour
         }
         else
         {
-            Debug.Log("1second?");
+            StartCoroutine(Disappear());
         }
     }
 }

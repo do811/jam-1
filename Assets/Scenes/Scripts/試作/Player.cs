@@ -17,7 +17,9 @@ public class Player : MonoBehaviour
     private MeshRenderer status;
     private GameObject maincamera;
     private int index = 0;
+    [SerializeField]
     private TextMeshProUGUI timetext;
+    private TextMeshProUGUI penaltytext;
 
 
     private void BackInitialPositoin(GameObject phone)
@@ -51,15 +53,16 @@ public class Player : MonoBehaviour
         phoneStat = phoneDisplay.GetComponent<MeshRenderer>();
         status = gameObject.GetComponent<MeshRenderer>();//managerオブジェクトのRendererに格納されてるマテリアル使用のため。
         maincamera = GameObject.Find("Sight");
-
         timetext = GameObject.Find("TimeText").GetComponent<TextMeshProUGUI>();
+        penaltytext = GameObject.Find("PenaltyText").GetComponent<TextMeshProUGUI>();
         timetext.gameObject.SetActive(false);
+        penaltytext.gameObject.SetActive(false);
+        ResultHandler.fadeResult();
     }
     // Update is called once per frame
     void Update()
     {
-        if (phoneStat.material.color == status.materials[0].color
-        && phoneStat.material.mainTexture == status.materials[0].mainTexture)
+        if (phoneStat.material.color == status.materials[0].color)
         {
             StopWatch.Start();
             if (Input.GetMouseButtonDown(0) && !PenaltyGauge.isPenalty)
@@ -67,7 +70,7 @@ public class Player : MonoBehaviour
                 SoundPlayer.StopSound();
                 var time = StopWatch.StopAndGetTime();
                 timetext.gameObject.SetActive(true);
-                timetext.text = $"{time.Seconds}.{time.Milliseconds}";
+                timetext.text = $"{time.Seconds}.{time.Milliseconds:D3}秒";
                 TakePhone(phoneObj);
                 Debug.Log("Took!");
             }
@@ -75,7 +78,8 @@ public class Player : MonoBehaviour
         else if (Input.GetMouseButtonDown(0) && !PenaltyGauge.isPenalty)
         {
             Debug.Log("pushed out of call");
-            PenaltyGauge.Start(this);
+            penaltytext.gameObject.SetActive(true);
+            PenaltyGauge.Start(this, penaltytext);
         }
     }
 }

@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 /**
@@ -214,6 +215,11 @@ namespace GameObjectlib
         public static Container operator &(Container a, Vector3 b)
         {
             a.Trs.position = b;
+            return a;
+        }
+        public static Container operator !(Container a)
+        {
+            a.Obj.SetActive(!a.Obj.activeSelf);
             return a;
         }
     };

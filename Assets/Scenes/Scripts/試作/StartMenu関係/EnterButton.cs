@@ -16,6 +16,7 @@ public class EnterButton : MonoBehaviour
 
     public void EnterOn()
     {
+        Debug.Log("enter on by" + NameHolder.PlayerName);
         if (nameField.text.CompareTo("") == 0)
         {
             //pass

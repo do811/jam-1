@@ -11,18 +11,15 @@ public class RankingHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        PrefAccessor.PlayerRankingLoad();
-        PrefAccessor.RankingUpdate("local", 102);
+        ScoreHolder.Add(PrefAccessor.PlayerRankingLoad());
+        PrefAccessor.RankingUpdate("local", ScoreHolder.Max);
         Debug.Log("updateRankinG");
         PrefAccessor.PlayerRankingLoad();
         //SetUserName("テスト君low");
         SetUserName(NameHolder.PlayerName);
-        SortedSet<int> myBests = new SortedSet<int>(
-            Comparer<int>.Create((x, y) => y.CompareTo(x))
-            );
-        myBests = PrefAccessor.CatchRanking("local", 5);
-        UnityEngine.Debug.Log(myBests.Min);
-        SubmitScore(myBests.First());
+        ScoreHolder.Add(PrefAccessor.CatchRanking("local", 5));
+        UnityEngine.Debug.Log(ScoreHolder.Max);
+        SubmitScore(ScoreHolder.Max);
         GetRanking();
     }
 

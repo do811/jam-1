@@ -7,7 +7,7 @@ public static class OutPut
 {
     public static void Display(string TextObjName, string str)
     {
-        TextMeshProUGUI textmesh = GameObject.Find(TextObjName).GetComponent<TextMeshProUGUI>();
-        textmesh.text = str;
+        TextMeshProUGUI textmesh = GameObject.Find(TextObjName)?.GetComponent<TextMeshProUGUI>();
+        if (textmesh != null) textmesh.text = str;
     }
 }

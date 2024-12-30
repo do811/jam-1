@@ -53,7 +53,7 @@ public static class PrefAccessor
             i++;
         }
     }
-    public static void PlayerRankingLoad()
+    public static SortedSet<int> PlayerRankingLoad()
     {
         SortedSet<int> ranking = CatchRanking("local", 5);
         int i = 1;
@@ -62,6 +62,7 @@ public static class PrefAccessor
             Debug.Log($"{i}位:{score}");
             i++;
         }
+        return ranking;
     }
     public static void RankingUpdate(string rankingKey, int score = 0, int RankingLength = 5)
     {

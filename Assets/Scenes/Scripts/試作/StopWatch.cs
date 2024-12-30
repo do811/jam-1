@@ -9,12 +9,13 @@ public static class StopWatch
 {
     private static System.Diagnostics.Stopwatch stopwatch
     = new();
-    private static int i = 0;
+    private static bool isStart = true;
     public static void Start()
     {
-        if (isStart())
+        if (isStart)
         {
-            Debug.Log("watch Start  ");
+            isStart = false;
+            Debug.Log("watch Start");
             stopwatch.Restart();
         }
     }
@@ -22,40 +23,32 @@ public static class StopWatch
     public static TimeSpan StopAndGetTime()
     {
         stopwatch.Stop();
-        i = 0;
+        isStart = true;
         return stopwatch.Elapsed;
-    }
-
-    private static bool isStart()
-    {
-        return 0 == i++;
     }
 }
 namespace local
 {
     public class StopWatch
     {
-        private System.Diagnostics.Stopwatch stopwatch
+        private static System.Diagnostics.Stopwatch stopwatch
         = new();
-        private int i = 0;
-        public void Start()
+        public static void Start()
         {
-            if (isStart())
+            if (isStart)
             {
+                isStart = false;
+                Debug.Log("watch Start  ");
                 stopwatch.Restart();
             }
         }
 
-        public TimeSpan StopAndGetTime()
+        public static TimeSpan StopAndGetTime()
         {
             stopwatch.Stop();
-            i = 0;
+            isStart = true;
             return stopwatch.Elapsed;
         }
-
-        private bool isStart()
-        {
-            return 0 == i++;
-        }
+        private static bool isStart = true;
     }
 }

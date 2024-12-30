@@ -3,18 +3,20 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
-using UnityEngine;
 using GameObjectlib;
 using System.Threading;
 using System.Diagnostics;
 using local;
 using UnityEditor.Experimental.GraphView;
 using TMPro;
+using System;
+using UnityEditor;
+using OnePlay;
 public class phoneManager_test : MonoBehaviour
 {
     private GameObject phoneObj;
     private GameObject manager;
-    private int watingtime;
+    private int dice;
     private MeshRenderer mesh;
     private int index = 0;
     private MeshRenderer colors;
@@ -30,45 +32,89 @@ public class phoneManager_test : MonoBehaviour
         Transform phoneTrs = phone.GetComponent<Transform>();
         phoneTrs.eulerAngles = new Vector3(0, 90, 0);
     }
-
+    private void Calcurate()
+    {
+        score = -Math.Log((double)phonetimes[phonecalltime] + 0.101F, 1.02F) + 50;
+        if (score > 0 && score <= 100)
+        {
+            Intscore[phonecalltime] = (int)Math.Round(score);
+        }
+        else if (score < 0)
+        {
+            Intscore[phonecalltime] = 0;
+            noresult = true;
+        }
+        else//score > 100のとき
+        {
+            Intscore[phonecalltime] = 100;
+        }
+    }
+    private void Total()
+    {
+        foreach (var one in Intscore)
+        {
+            totalscore += one;
+        }
+    }
+    private static int timeCountSize = 5;
     int maxcycle = 2;//最大で着信が来ない回数
     int currentcycle = 0; //電話が来た回数？
     int watingsum = 0;
     int phonecalltime = 0;
-    private static int timeCountSize = 2;//変数名はわかりやすいやつで自由に、今回は２
+    double score = 0;
+    int totalscore = 0;
+    bool noresult = false;
+    int[] Intscore = new int[timeCountSize];
     private double[] phonetimes = new double[timeCountSize];
     bool isCallAble = true;
     //時間制御なんでIEnumeratorによるコルーチン
     IEnumerator waitCall()
     {
-        
+        yield return new WaitForSeconds(2f);
+        watingsum += 2;
         for (; ; )
         {
-            watingtime = Random.Range(1, 6);
-            //UnityEngine.Debug.Log(watingtime);
-            if ((watingtime <= 2 || watingsum >= 8) && isCallAble)
+            dice = UnityEngine.Random.Range(1, 6);
+            if ((dice <= 2 || watingsum >= 8) && isCallAble)
             {
                 mesh.material = colors.materials[index = 0];//ここで赤色にする
                 isCallAble = false;
+                watingsum = 0;
+                SoundPlayer.PlaySound();
+                yield return new WaitForSeconds(3f);
 
-                yield return new WaitForSeconds(watingtime);
-
+                SoundPlayer.StopSound();
                 StopWatch.StopAndGetTime();
                 BackInitialPositoin(phoneObj);
                 BackInitialRotate(phoneObj);
                 var time = StopWatch.StopAndGetTime();
+
                 double totalTime = (time.Seconds) + (time.Milliseconds / 1000F);//ストップウォッチの値取得
                 phonetimes[phonecalltime] = totalTime;
-                UnityEngine.Debug.Log(phonetimes[phonecalltime]);
-                
-            
-
-
+                Calcurate();
+                UnityEngine.Debug.Log(totalTime);
+                UnityEngine.Debug.Log(Intscore[phonecalltime]);
+                ScoreHolder<List<int>>.Add(Intscore[phonecalltime]);
+                if (noresult)
+                {
+                    OutPut.Display("Time" + (phonecalltime + 1)
+                , (phonecalltime + 1).ToString() + "回目:記録なし");
+                    noresult = false;
+                }
+                else
+                {
+                    OutPut.Display("Time" + (phonecalltime + 1)
+                    , (phonecalltime + 1).ToString() + "コール目:" + phonetimes[phonecalltime].ToString() + "秒  " + Intscore[phonecalltime].ToString() + "点");
+                }
                 currentcycle = 0; //これで無限ループ？
                 phonecalltime += 1;
-                if (phonecalltime == 3)//3回でやってみる
+                if (phonecalltime == timeCountSize)
                 {
                     UnityEngine.Debug.Log("Finish!");
+                    Total();
+                    ScoreHolder<List<int>>.one = totalscore;
+                    UnityEngine.Debug.Log(totalscore);
+                    ResultHandler.DisplayResult();
                     break;
                 }
             }
@@ -77,8 +123,8 @@ public class phoneManager_test : MonoBehaviour
                 //TODO:失敗したとき処理
                 isCallAble = true;
                 mesh.material = colors.materials[index = 1];
-                watingsum += watingtime;
-                yield return new WaitForSeconds(watingtime);
+                watingsum += dice;
+                yield return new WaitForSeconds(dice);
             }
         }
     }
@@ -90,10 +136,10 @@ public class phoneManager_test : MonoBehaviour
     {
         phoneObj = this.gameObject;
         manager = GameObject.Find("manager");
-        mesh = phoneObj.GetComponent<MeshRenderer>();
+        mesh = GameObject.Find("display").GetComponent<MeshRenderer>();
         colors = manager.GetComponent<MeshRenderer>();
-        mesh.material = colors.materials[0];
-        StartCoroutine(waitCall());
+        mesh.material = colors.materials[1];
 
+        StartCoroutine(waitCall());
     }
 }
