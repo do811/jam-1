@@ -7,7 +7,6 @@ using GameObjectlib;
 using System.Threading;
 using System.Diagnostics;
 using local;
-using UnityEditor.Experimental.GraphView;
 using TMPro;
 using System;
 using UnityEditor;
@@ -104,7 +103,7 @@ public class phoneManager_test : MonoBehaviour
                 else
                 {
                     OutPut.Display("Time" + (phonecalltime + 1)
-                    , (phonecalltime + 1).ToString() + "コール目:" + phonetimes[phonecalltime].ToString() + "秒  " + Intscore[phonecalltime].ToString() + "点");
+                    , $"Time{phonecalltime + 1}: {phonetimes[phonecalltime]:F3}秒  {Intscore[phonecalltime]}点");
                 }
                 currentcycle = 0; //これで無限ループ？
                 phonecalltime += 1;
