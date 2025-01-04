@@ -14,14 +14,14 @@ public class Results : MonoBehaviour
     {
         Totaltext = GameObject.Find("Total");
         texts = new(this.gameObject);
-        texts &= (-400f, 350f, 0f);
+        texts &= (-400f, 310f, 0f);
     }
 
 
     double time = 0;
     double span = 0.3f;
     double difference_x = 0;
-    const double max_difference_x = 800f;
+    const double max_difference_x = 900f;
     // Update is called once per frame
     void Update()
     {
@@ -29,7 +29,7 @@ public class Results : MonoBehaviour
         if (time < span)
         {
             difference_x = max_difference_x * (time / span);
-            texts &= (-400f + (float)difference_x, 350f, 0f);
+            texts &= (-400f + (float)difference_x, 310f, 0f);
         }
         else
         {
