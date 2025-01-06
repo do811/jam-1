@@ -19,11 +19,10 @@ public class EnterButton : MonoBehaviour
         Debug.Log("enter on by" + NameHolder.PlayerName);
         if (nameField.text.CompareTo("") == 0)
         {
-            //pass
+            //
         }
         else
         {
-            PlayerPrefs.SetString("name", nameField.text);
             NameHolder.PlayerName = nameField.text;
             nameField.text = "";
         }
