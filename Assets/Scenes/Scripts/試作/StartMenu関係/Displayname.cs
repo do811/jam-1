@@ -11,6 +11,5 @@ public class Displayname : MonoBehaviour
     {
         PNtext = gameObject.GetComponent<TextMeshProUGUI>();
         PNtext.text = "Player:" + NameHolder.PlayerName;
-
     }
 }

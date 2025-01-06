@@ -8,20 +8,23 @@ using OnePlay;
 public class Results : MonoBehaviour
 {
     private static Container texts;
+    private RectTransform texT;
     GameObject Totaltext;
     // Start is called before the first frame update
     void Start()
     {
         Totaltext = GameObject.Find("Total");
         texts = new(this.gameObject);
-        texts &= (-400f, 310f, 0f);
+        texT = texts.Obj.GetComponent<RectTransform>();
+        texT.position = new Vector3(-200, 0, 0);
     }
 
 
     double time = 0;
     double span = 0.3f;
     double difference_x = 0;
-    const double max_difference_x = 900f;
+    const double max_difference_x = 800f;
+    Vector3 targetPos = new Vector3();
     // Update is called once per frame
     void Update()
     {
@@ -29,7 +32,10 @@ public class Results : MonoBehaviour
         if (time < span)
         {
             difference_x = max_difference_x * (time / span);
-            texts &= (-400f + (float)difference_x, 310f, 0f);
+            targetPos.x = -200f + (float)difference_x;
+            targetPos.z = 0f;
+            targetPos.y = 200f;
+            texT.position = targetPos;
         }
         else
         {

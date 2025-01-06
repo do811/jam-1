@@ -18,11 +18,11 @@ public static class NameHolder
     }
     public static String PlayerName
     {
-        get => playerName;
+        get => PlayerPrefs.GetString("name");
         set
         {
-            Debug.Log(value);
-            playerName = value;
+            playerName = PlayerPrefs.GetString("name");
+            Debug.Log(playerName);
             DisplayName();
         }
     }

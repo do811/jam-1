@@ -23,6 +23,7 @@ public class EnterButton : MonoBehaviour
         }
         else
         {
+            PlayerPrefs.SetString("name", nameField.text);
             NameHolder.PlayerName = nameField.text;
             nameField.text = "";
         }
