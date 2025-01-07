@@ -9,7 +9,7 @@ public static class NameHolder
 {
     private static String playerName = "Guest";
     private static TextMeshProUGUI textMesh;
-    public static void DisplayName(string name)
+    private static void DisplayName(string name)
     {
         TextMeshProUGUI
         TextMesh = GameObject.Find("DisplayName")
