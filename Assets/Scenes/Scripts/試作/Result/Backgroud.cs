@@ -35,5 +35,6 @@ public class Backgroud : MonoBehaviour
     {
         GameObject results = GameObject.Find("Results");
         results.SetActive(true);
+        
     }
 }

@@ -47,6 +47,7 @@ public class Total : MonoBehaviour
     IEnumerator BackToMenu()
     {
         yield return new WaitForSeconds(10f);
+        SceneManager.LoadScene("main_1");
         SceneManager.LoadScene("StartMenu");
     }
 
