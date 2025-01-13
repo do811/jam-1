@@ -23,7 +23,7 @@ public class TimeText : MonoBehaviour
     double time = 0;
     double span = 0.3f;
     double difference_x = 0;
-    const double max_difference_x = -500f;
+    const double max_difference_x = -600f;
     // Update is called once per frame
     void Update()
     {
