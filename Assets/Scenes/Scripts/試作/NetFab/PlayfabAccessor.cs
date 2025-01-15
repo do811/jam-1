@@ -6,38 +6,18 @@ using UnityEngine;
 using TMPro;
 using System.Linq;
 
-public class RankingHandler : MonoBehaviour
+public class PlayfabAccessor : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
     {
-        ScoreHolder.Add(PrefAccessor.PlayerRankingLoad());
-        PrefAccessor.RankingUpdate("local", ScoreHolder.Max);
-        Debug.Log("updateRankinG");
-        PrefAccessor.PlayerRankingLoad();
-        //SetUserName("テスト君low");
         SetUserName(NameHolder.PlayerName);
-        ScoreHolder.Add(PrefAccessor.CatchRanking("local", 5));
-        UnityEngine.Debug.Log(ScoreHolder.Max);
         SubmitScore(ScoreHolder.Max);
         GetRanking();
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            SetUserName(NameHolder.PlayerName);
-        }
-
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-        }
-
-        // キーボードで「C」が入力されたらランキングを取得する
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-        }
     }
 
 
@@ -62,6 +42,8 @@ public class RankingHandler : MonoBehaviour
         PlayFabClientAPI.GetLeaderboard(request, OnGetRankingSuccess, OnGetRankingFailure);
 
         // 送信成功時の処理
+    }
+
         void OnGetRankingSuccess(GetLeaderboardResult leaderboardResult)
         {
             // ランキングを表示するコード
@@ -80,8 +62,6 @@ public class RankingHandler : MonoBehaviour
         {
             Debug.Log("ランキングの取得に失敗しました");
         }
-    }
-
 
     void GetRankingAroundPlayer()
     {
@@ -98,6 +78,7 @@ public class RankingHandler : MonoBehaviour
         PlayFabClientAPI.GetLeaderboardAroundPlayer(request, OnGetRankingAroundPlayerSuccess, OnGetRankingAroundPlayerFailure);
 
         // 送信成功時の処理
+    }
         void OnGetRankingAroundPlayerSuccess(GetLeaderboardAroundPlayerResult leaderboardResult)
         {
             // ランキングを表示する仮コード
@@ -114,7 +95,6 @@ public class RankingHandler : MonoBehaviour
         {
             Debug.Log("ランキングの取得に失敗しました");
         }
-    }
 
     void SetUserName(string name)
     {
@@ -126,7 +106,6 @@ public class RankingHandler : MonoBehaviour
         PlayFabClientAPI.UpdateUserTitleDisplayName(request, OnSetUserNameSuccess, OnSetUserNameFailure);
 
         // 送信成功時の処理
-    }
         void OnSetUserNameSuccess(UpdateUserTitleDisplayNameResult result)
         {
             Debug.Log("プレイヤー名の変更に成功しました");
@@ -137,6 +116,7 @@ public class RankingHandler : MonoBehaviour
         {
             Debug.Log("プレイヤー名の変更に失敗しました");
         }
+    }
 
     void SubmitScore(int score)
     {
@@ -152,7 +132,6 @@ public class RankingHandler : MonoBehaviour
             }
         };
         PlayFabClientAPI.UpdatePlayerStatistics(request, OnSubmitScoreSuccess, OnSubmitScoreFailure);
-    }
         void OnSubmitScoreSuccess(UpdatePlayerStatisticsResult result)
         {
             Debug.Log("スコアの送信に成功しました");
@@ -163,6 +142,7 @@ public class RankingHandler : MonoBehaviour
         {
             Debug.Log("スコアの送信に失敗しました");
         }
+    }
     public void Display(string TextObjName, string str)
     {
         TextMeshProUGUI textmesh = GameObject.Find(TextObjName).GetComponent<TextMeshProUGUI>();
