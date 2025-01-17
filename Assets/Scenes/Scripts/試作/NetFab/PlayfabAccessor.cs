@@ -6,7 +6,7 @@ using UnityEngine;
 using TMPro;
 using System.Linq;
 
-public class PlayfabAccessor : MonoBehaviour
+public abstract class PlayfabAccessor : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -22,7 +22,6 @@ public class PlayfabAccessor : MonoBehaviour
 
 
     // Update is called once per frame
-
     void GetRanking()
     {
         // PlayFabに送信するリクエストを作成する
@@ -44,16 +43,13 @@ public class PlayfabAccessor : MonoBehaviour
         // 送信成功時の処理
     }
 
+    protected abstract void UseRanking(PlayerLeaderboardEntry item);
         void OnGetRankingSuccess(GetLeaderboardResult leaderboardResult)
         {
             // ランキングを表示するコード
             foreach (var item in leaderboardResult.Leaderboard)
             {
-                // Positionは順位。0から始まるので+1して表示する
-                // intの最大値から取得したスコアを引いて、本来のスコアを出力する
-                Debug.Log($"{item.Position + 1}位　プレイヤー名：{item.DisplayName}　スコア：{item.StatValue}");
-                OutPut.Display("RankingText" + (item.Position + 1)
-                , $"{item.Position + 1}位：{(item.StatValue):D3}点：{item.DisplayName}");
+                UseRanking(item);
             }
         }
 
