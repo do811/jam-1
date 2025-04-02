@@ -20,6 +20,7 @@ public abstract class PlayfabAccessor : MonoBehaviour
     {
     }
 
+    
 
     // Update is called once per frame
     void GetRanking()
